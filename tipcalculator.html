@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tip Calculator</title>
+  <script src="jquery.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+  <style type="text/css">
+    body{
+      /*background-image: url('background.jpeg');
+      background-repeat: no-repeat;*/
+      background-size: 100%;
+      background-color: cadetblue;
+
+    }
+    #container{
+      height: 650px;
+      width: 30%;
+      text-align: center;
+      border: black;
+      border-radius: 35px;
+      background: white;
+      margin: 0 auto;
+    }
+
+    div.refresh-icon-container {
+      text-align: right;
+      padding-right: 20px;
+      padding-top: 20px;
+    }
+
+    #header{
+      padding: 5px;
+      background-color: brown;
+      color: white;
+      border-top-left-radius: 35px;
+      border-top-right-radius: 35px;
+    }
+    #subcontainer{
+      padding: 5px;
+      font-size: 19px;
+    }
+    #calc{
+      background-color: brown;
+      color: white;
+      margin-top: 15px;
+      width: 150px;
+      height: 50px;
+      text-align: center;
+      font-size: 17px;
+      border-radius: 10px;
+    }
+    input{
+      height: 30px;
+      border-radius: 5px;
+    }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button{
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .bill-amount-error, .rating-error, .number-error {
+      color: red;
+      font-size: 13px;
+      display: none;
+    }
+    #container3 {
+      display: none;
+    }
+
+    select{
+      height: 30px;
+      width: 150px;
+      border-radius: 5px;
+      background-color: brown;
+      color: white;
+    }
+    
+  </style>
+</head>
+<body>
+  <div id="container">
+    <div id="header">
+      <div class="refresh-icon-container">
+        <i style="cursor: pointer;" class="fa fa-refresh"></i>
+      </div>
+       <h1 style="margin-top: 0px; user-select: none;">Tip Calculator</h1>
+    </div>
+       <div id="subcontainer">
+       <p>How much was your bill?</p>
+       <input type="number" id="billAmount" placeholder="Bill Amount">
+       <div class="bill-amount-error">Please enter bill amount</div>
+       <p>How was your service?</p>
+       <select id="serviceOptions" placeholder="select">
+          <option disabled selected id="defaultOption">--Choose an Option--</option>
+          <option value="30">Outstanding - 30%</option>
+          <option value="20">Good - 20%</option>
+          <option value="10">OK - 10%</option>
+          <option value="5">Bad - 5%</option>
+          <option value="0">Terrible - 0%</option>
+       </select>
+       <div class="rating-error">Please select a rating</div>
+       <p>How many people are sharing the bill?<p>
+       <input type="number" id="number" placeholder="Number of People"><br/>
+       <div class="number-error">Please enter number of people </div>
+       <button id="calc">Calculate!</button>
+       <div id="container3">
+         <p>TIP AMOUNT</p>
+        <i class="fa fa-rupee"></i><span id="tip"></span>
+        <p>each</p>
+       </div>
+
+    
+  </div>
+</body>
+<script type="text/javascript">
+  $('document').ready(function () {
+    let $refreshBtn = $('div.refresh-icon-container i');
+    let $billAmount =$('#billAmount');
+    let $billAmountError =$('.bill-amount-error');
+    let $serviceOptions = $('#serviceOptions');
+    let $ratingError = $('.rating-error');
+    let $number = $('#number');
+    let $numberError = $('.number-error');
+    let $defaultOption = $('#defaultOption');
+    let $calculateBtn = $('#calc');
+    let $container3 = $('#container3');
+
+    $refreshBtn.click(function (){
+      $billAmount.val('');
+      $serviceOptions.val($defaultOption.val());
+      $number.val('');
+      $ratingError.hide();
+      $billAmountError.hide();
+      $numberError.hide();
+    });
+
+    const calculate = function() {
+      let isValid = true;
+      let amount = $billAmount.val();
+      let rating = $serviceOptions.val();
+      let defaultOption = $defaultOption.val()
+      let number = $number.val();
+      let tipAmt = (amount*rating)/(number*100);
+
+      if (amount === '' || rating) {
+      }
+      if (!amount || amount === '') {
+        $billAmountError.show();
+        isValid = false;
+      } else {
+        $billAmountError.hide();
+      }
+
+      if (!rating || rating === '') {
+        isValid = false;
+        $ratingError.show();
+      } else {
+        $ratingError.hide();
+      }
+      if (!number || number === '') {
+        $numberError.show();
+        isValid = false;
+      } else {
+        $numberError.hide();
+      }
+
+      if(isValid) {
+        $container3.show()
+        $('#tip').text(tipAmt);
+      }
+    }; 
+
+    $calculateBtn.click(calculate);
+  });
+</script>
+
+</html>
